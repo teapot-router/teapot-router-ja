@@ -1,42 +1,67 @@
-# Teapot Router（ティーポットルーター）
+<div align="center">
 
-**開発者向け AI モデル API ゲートウェイ** — 1つのキーで、Claude Code と OpenAI SDK の両方を1つのエンドポイントへ。
+# ティーポットルーター — コーディングエージェント向け LLM API ゲートウェイ
 
-公式サイト: <https://teapotrouter.com/ja>
+**キーはひとつ。プロトコルはふたつ。使った分だけ — 残高は永久に失効しません。**
 
-## できること
+Claude Code・Codex CLI・OpenAI SDK ツールのためのホステッドゲートウェイ: 環境変数 2 つを差し替えるだけで、すべての AI コーディングツールがひとつのエンドポイント・ひとつの残高・リクエスト単位のコスト台帳にまとまります。
 
-- **デュアルプロトコル**: Anthropic Messages（Claude Code 互換）と OpenAI Chat Completions（`/v1`）を同一キーで利用可能
-- **従量課金・価格全公開**: モデル単価を全公開。免ログインの JSON 価格 API（`/api/pricing`）も提供
-- **リクエスト単位のコスト履歴**: モデル・トークン数・金額を毎回記録。API 利用コストが透明に
-- **組織キー発行と監査ログ**: チームでキー発行権限と利用記録を分離管理
-- **マルチアップストリーム自動フェイルオーバー**: 上流障害時に自動切り替え
+[はじめる](https://teapotrouter.com/ja/register) · [料金 — 公開・機械可読 JSON](https://teapotrouter.com/api/pricing) · [ドキュメント](https://teapotrouter.com/ja/docs)
 
-## クイックスタート（Claude Code）
+</div>
+
+---
+
+## なぜコーディングエージェントにゲートウェイなのか
+
+Claude Code と OpenAI SDK ツールを併用していると、こうなりがちです: ツールごとにエンドポイントとキーが別々に必要で、請求は毎月のブラックボックス。
+
+ゲートウェイはこの配管を整理します:
+
+| | 直接接続（ベンダーごと） | ゲートウェイ経由 |
+| --- | --- | --- |
+| エンドポイント & キー | ベンダーごとに 1 組 | **キー 1 つ、プロトコル 2 つ** |
+| 請求 | ダッシュボード N 個、月次合計のみ | 残高 1 つ、**リクエスト単位の台帳** |
+| コスト可視性 | 「$84 かかった」 | 「あのセッションは $6.20 — 78% は再送されたコンテキスト」 |
+| 利用規約 | ベンダーごとのポリシー | ここでは: **残高の有効期限なし**、残額ベースで返金 |
+
+## セットアップ: 環境変数 2 つ
 
 ```bash
-export ANTHROPIC_BASE_URL=https://api.teapotrouter.com
-export ANTHROPIC_AUTH_TOKEN=sk-xxxx
-claude
+# Claude Code（Anthropic プロトコル）
+export ANTHROPIC_BASE_URL="https://api.teapotrouter.com"
+export ANTHROPIC_AUTH_TOKEN="sk-****"
+
+# OpenAI SDK / Codex CLI — 同じキーで /v1 エンドポイント
+# base_url = https://api.teapotrouter.com/v1
 ```
 
-## クイックスタート（OpenAI SDK / Codex CLI）
+登録 → 初回リクエスト → トラブルシューティングまでのステップバイステップガイド: [teapotrouter.com/ja/docs](https://teapotrouter.com/ja/docs)
 
-```bash
-export OPENAI_BASE_URL=https://api.teapotrouter.com/v1
-export OPENAI_API_KEY=sk-xxxx
-```
+## サイトで確認できること
 
-既存の OpenAI 互換 SDK は `base_url` を差し替えるだけでそのまま動きます。
+- **公開料金** — 全モデルの基準単価と実払い額。ログイン不要の JSON エンドポイント（[`/api/pricing`](https://teapotrouter.com/api/pricing)）なので、スクリプトで比較することも
+- **モデル別料金ページ** — 例: [claude-opus-5-5](https://teapotrouter.com/ja/pricing/claude-opus-5-5)
+- **Claude Code 料金ガイド** — サブスク vs 従量課金 vs ゲートウェイ、実際のコスト計算付き: [ドキュメント](https://teapotrouter.com/ja/docs/claude-code-pricing)
+- **トラブルシューティングガイド** — 接続・401・クォータ系エラーを原因別の解決策とマッチング: [ドキュメント](https://teapotrouter.com/ja/docs/claude-code-troubleshooting)
 
-## 料金
+## どんなゲートウェイにも尋ねるべき 2 つの質問（ここも例外ではありません）
 
-従量課金（プリペイド制、$1 からチャージ可能）。
-価格表: <https://teapotrouter.com/ja> ／ JSON: <https://teapotrouter.com/api/pricing>
+- **モデルはどこから調達していますか?** 公式・正規 API チャネルから従量で課金して調達しています。アカウント共有やサブスクの転売はしていません。
+- **何をログに記録しますか?** 課金メタデータのみ（モデル・トークン・コスト・レイテンシ）— リクエスト単位の台帳が成り立つのはこのためです。「ゼロログ」の演出はしません。会話内容には触れません。
 
-## このプロジェクトについて
+## 正直な限界
 
-- 個人開発プロジェクトです
-- 名称は HTTP ステータスコード 418 "I'm a teapot" から。ロゴは「418 を潰してティーポットにした」ものです 🫖
-- お問い合わせ: support@teapotrouter.com
-- 組織: <https://github.com/teapot-router>
+個人開発、最近のローンチ、マーケティング予算なし — 料金エンドポイントは常に稼働中のモデル一覧を返すので、この README を鵜呑みにせず自分で確認してください。マルチアップストリームのフェイルオーバーを内蔵していても、ゲートウェイは依存関係のひとつです。代替経路を残しておいてください。
+
+問い合わせ: support@teapotrouter.com
+
+---
+
+<div align="center">
+
+名前は HTTP ステータスコード 418 "I'm a teapot" から 🫖 — [フルストーリー](https://teapotrouter.com/ja/418)
+
+**[Teapot Router](https://teapotrouter.com/ja)** — Claude Code と GPT のための stability-first AI ゲートウェイ
+
+</div>
