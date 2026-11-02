@@ -40,6 +40,7 @@ export ANTHROPIC_AUTH_TOKEN="sk-****"
 
 ## サイトで確認できること
 
+- [【ブログ】Claude Code の請求額はどこへ消えるのか](https://teapotrouter.com/ja/blog/where-does-a-claude-code-bill-go)
 - [無料コスト計算ツール（ログイン不要・リアルタイム料金）](https://teapotrouter.com/ja/claude-code-cost-calculator) — サブスク vs 従量課金の損益分岐点がわかる
 - **公開料金** — 全モデルの基準単価と実払い額。ログイン不要の JSON エンドポイント（[`/api/pricing`](https://teapotrouter.com/api/pricing)）なので、スクリプトで比較することも
 - **モデル別料金ページ** — 例: [claude-opus-5-5](https://teapotrouter.com/ja/pricing/claude-opus-5-5)
