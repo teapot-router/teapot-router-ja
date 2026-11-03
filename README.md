@@ -6,7 +6,7 @@
 
 Claude Code・Codex CLI・OpenAI SDK ツールのためのホステッドゲートウェイ: 環境変数 2 つを差し替えるだけで、すべての AI コーディングツールがひとつのエンドポイント・ひとつの残高・リクエスト単位のコスト台帳にまとまります。
 
-[はじめる](https://teapotrouter.com/ja/register) · [料金 — 公開・機械可読 JSON](https://teapotrouter.com/api/pricing) · [ドキュメント](https://teapotrouter.com/ja/docs)
+[はじめる](https://teapotrouter.com/ja/register) · [料金 — 公開・機械可読 JSON](https://teapotrouter.com/api/pricing) · [ドキュメント](https://teapotrouter.com/ja/docs) · [サービス状況](https://teapotrouter.com/ja/status)
 
 </div>
 
